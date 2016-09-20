@@ -1,4 +1,3 @@
-var angular = require('angular');
 var homeModuleName = 'home';
 var home = angular.module(homeModuleName, []);
 home.component(homeModuleName, {

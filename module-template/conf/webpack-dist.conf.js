@@ -1,7 +1,6 @@
 const webpack = require('webpack');
 const conf = require('./gulp.conf');
 const path = require('path');
-
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const pkg = require('../package.json');
@@ -58,15 +57,20 @@ module.exports = {
     new webpack.optimize.UglifyJsPlugin({
       compress: {unused: true, dead_code: true} // eslint-disable-line camelcase
     }),
-    new ExtractTextPlugin('index-[contenthash].css')
+    new ExtractTextPlugin(conf.name+'-'+conf.version+'.css')
   ],
   postcss: () => [autoprefixer],
   output: {
     path: path.join(process.cwd(), conf.paths.dist),
-    filename: '[name]-[hash].js'
+    filename: '[name]-'+conf.version+'.js'
   },
-  entry: {
-    app: `./${conf.path.src('index')}`,
-    vendor: Object.keys(pkg.dependencies)
-  }
+  entry: createEntry()
 };
+
+
+function createEntry(){
+  var entries = {};
+  entries[conf.name] = `./${conf.path.src('index')}`;
+  entries[conf.name+'-vendor'] = Object.keys(pkg.dependencies);
+  return entries;
+}

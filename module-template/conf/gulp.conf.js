@@ -10,6 +10,8 @@
 
 const path = require('path');
 const gutil = require('gulp-util');
+var fs = require('fs');
+var json = JSON.parse(fs.readFileSync('./package.json'));
 
 exports.ngModule = 'app';
 
@@ -24,6 +26,9 @@ exports.paths = {
   tasks: 'gulp_tasks'
 };
 
+exports.version = json.version;
+exports.name = json.name;
+
 exports.path = {};
 for (const pathName in exports.paths) {
   if (exports.paths.hasOwnProperty(pathName)) {
@@ -35,7 +40,7 @@ for (const pathName in exports.paths) {
     };
   }
 }
-
+console.log(exports.path);
 /**
  *  Common implementation for an error handler of a Gulp plugin
  */
