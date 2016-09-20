@@ -6,14 +6,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 
 module.exports = {
-  resolve: {
-    root: path.src,
-    extensions: ['', '.ts', '.js'],
-    alias: {
-      materializecss: 'materialize-css/dist/css/materialize.css',
-      materialize: 'materialize-css/dist/js/materialize.js'
-    }
-  },
   module: {
     loaders: [
       {
@@ -55,16 +47,12 @@ module.exports = {
       },
       { test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader:"url?limit=10000&mimetype=application/font-woff" },
       { test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "file-loader" },
-      { // Materialize
-        test: /materialize-css\/dist\/js\/materialize\.js/,
+      { // bootstrap
+        test: /bootstrap\/dist\/js\/bootstrap\.js/,
         loader: 'imports?materializecss'
       },
-      { // Materialize CSS only
-        test: /materialize\.css$/,
-        loader: 'style!css'
-      },
-      { // component stylesheets
-        test:  /^((?!materialize).)*\.css$/,
+      { // bootstrap stylesheets
+        test:  /^((?!bootstrap).)*\.css$/,
         loader: 'raw'
       }
     ]
@@ -75,14 +63,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: conf.path.src('index.html'),
       inject: true
-    }),
-     new webpack.ProvidePlugin({
-       // for Materialize
-       $: "jquery",
-       jQuery: "jquery",
-       "window.jQuery": "jquery",
-       Hammer: "hammerjs/hammer"
-     })
+    })
   ],
   postcss: () => [autoprefixer],
   debug: true,

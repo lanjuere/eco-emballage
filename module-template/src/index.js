@@ -1,6 +1,7 @@
 var angular = require('angular');
-
-require('materialize-css/sass/materialize.scss');
-require('materialize-css');
 var views = require('./app/views/views');
-angular.module('app', [views]);
+require('bootstrap/dist/css/bootstrap.css');
+require('angular-animate');
+require('angular-touch');
+require('angular-ui-bootstrap');
+angular.module('app', ['ui.bootstrap',views]);
