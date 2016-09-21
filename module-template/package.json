@@ -21,7 +21,6 @@
     "bootstrap": "^3.3.7"
   },
   "devDependencies": {
-    "angular-material": "^1.1.1",
     "angular-mocks": "^1.5.0-beta.2",
     "autoprefixer": "^6.2.2",
     "babel-loader": "^6.2.0",
