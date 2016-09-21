@@ -6,6 +6,10 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const pkg = require('../package.json');
 const autoprefixer = require('autoprefixer');
 const nodeExternals = require('webpack-node-externals');
+
+const dependencies = Object.keys(pkg.dependencies).slice();
+// var angularId = Object.keys(pkg.dependencies).indexOf('angular');
+// dependencies.splice(angularId, 1);
 module.exports = {
   // externals: [nodeExternals( {// in order to ignore all modules in node_modules folder
   //     whitelist: Object.keys(pkg.dependencies)
@@ -61,9 +65,9 @@ module.exports = {
       name: conf.name+'-vendor',
       filename: conf.name+'-vendor.js'
     }),
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {unused: true, dead_code: true} // eslint-disable-line camelcase
-    }),
+    // new webpack.optimize.UglifyJsPlugin({
+    //   compress: false // eslint-disable-line camelcase
+    // }),
     new ExtractTextPlugin(conf.name+'.css'),
     new webpack.ProvidePlugin({
         $: 'jquery',
@@ -83,6 +87,6 @@ module.exports = {
 function createEntry(){
   var entries = {};
   entries[conf.name] = `./${conf.path.src('index')}`;
-  entries[conf.name+'-vendor'] = Object.keys(pkg.dependencies);
+  entries[conf.name+'-vendor'] = dependencies;
   return entries;
 }
