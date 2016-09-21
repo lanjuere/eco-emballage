@@ -1,17 +1,24 @@
 {
   "name": "declaration",
   "private": false,
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "project declaration",
   "license": "MIT",
-  "keywords": ["angular","bootstrap","webpack","karma","gulp","template"],
-  "author":{
-    "name" : "lionel Anjuère",
-    "email" : "lionel.anjuere@gmail.com"
+  "keywords": [
+    "angular",
+    "bootstrap",
+    "webpack",
+    "karma",
+    "gulp",
+    "template"
+  ],
+  "author": {
+    "name": "lionel Anjuère",
+    "email": "lionel.anjuere@gmail.com"
   },
-  "repository" :{
-    "type" : "git",
-    "url" : "https://github.com/lanjuere/eco-emballage.git"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lanjuere/eco-emballage.git"
   },
   "main": "dist/declaration.js",
   "dependencies": {
@@ -67,7 +74,8 @@
     "resolve-url-loader": "^1.6.0",
     "style-loader": "^0.13.0",
     "url-loader": "^0.5.7",
-    "webpack": "2.1.0-beta.20"
+    "webpack": "2.1.0-beta.20",
+    "webpack-node-externals": "^1.4.3"
   },
   "scripts": {
     "build": "gulp",

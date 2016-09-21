@@ -5,8 +5,12 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const pkg = require('../package.json');
 const autoprefixer = require('autoprefixer');
-
+const nodeExternals = require('webpack-node-externals');
 module.exports = {
+  target: 'node', // in order to ignore built-in modules like path, fs, etc.
+  externals: [nodeExternals( {// in order to ignore all modules in node_modules folder
+      whitelist: Object.keys(pkg.dependencies)
+    })],
   module: {
     preLoaders: [
       {
@@ -34,7 +38,7 @@ module.exports = {
         test: /\.js$/,
         exclude: /node_modules/,
         loaders: [
-          'ng-annotate'
+          'ng-annotate', 'babel'
         ]
       },
       {
@@ -54,6 +58,10 @@ module.exports = {
       template: conf.path.src('index.html'),
       inject: true
     }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: conf.name+'-vendor',
+      filename: conf.name+'-vendor.js'
+    }),
     new webpack.optimize.UglifyJsPlugin({
       compress: {unused: true, dead_code: true} // eslint-disable-line camelcase
     }),
@@ -72,5 +80,7 @@ function createEntry(){
   var entries = {};
   entries[conf.name] = `./${conf.path.src('index')}`;
   entries[conf.name+'-vendor'] = Object.keys(pkg.dependencies);
+   console.log(entries[conf.name]);
+   console.log(entries[conf.name+'-vendor']);
   return entries;
 }
