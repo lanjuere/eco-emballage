@@ -7,10 +7,9 @@ const pkg = require('../package.json');
 const autoprefixer = require('autoprefixer');
 const nodeExternals = require('webpack-node-externals');
 module.exports = {
-  target: 'node', // in order to ignore built-in modules like path, fs, etc.
-  externals: [nodeExternals( {// in order to ignore all modules in node_modules folder
-      whitelist: Object.keys(pkg.dependencies)
-    })],
+  // externals: [nodeExternals( {// in order to ignore all modules in node_modules folder
+  //     whitelist: Object.keys(pkg.dependencies)
+  //   })],
   module: {
     preLoaders: [
       {
@@ -65,7 +64,12 @@ module.exports = {
     new webpack.optimize.UglifyJsPlugin({
       compress: {unused: true, dead_code: true} // eslint-disable-line camelcase
     }),
-    new ExtractTextPlugin(conf.name+'.css')
+    new ExtractTextPlugin(conf.name+'.css'),
+    new webpack.ProvidePlugin({
+        $: 'jquery',
+        jquery: 'jquery',
+        jQuery: 'jquery'
+    })
   ],
   postcss: () => [autoprefixer],
   output: {
@@ -80,7 +84,5 @@ function createEntry(){
   var entries = {};
   entries[conf.name] = `./${conf.path.src('index')}`;
   entries[conf.name+'-vendor'] = Object.keys(pkg.dependencies);
-   console.log(entries[conf.name]);
-   console.log(entries[conf.name+'-vendor']);
   return entries;
 }
