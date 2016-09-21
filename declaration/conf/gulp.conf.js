@@ -13,7 +13,7 @@ const gutil = require('gulp-util');
 var fs = require('fs');
 var json = JSON.parse(fs.readFileSync('./package.json'));
 
-exports.ngModule = 'app';
+exports.ngModule = 'declaration';
 
 /**
  *  The main paths of your project handle these with care
@@ -40,7 +40,6 @@ for (const pathName in exports.paths) {
     };
   }
 }
-console.log(exports.path);
 /**
  *  Common implementation for an error handler of a Gulp plugin
  */

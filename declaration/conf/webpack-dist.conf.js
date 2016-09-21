@@ -57,12 +57,12 @@ module.exports = {
     new webpack.optimize.UglifyJsPlugin({
       compress: {unused: true, dead_code: true} // eslint-disable-line camelcase
     }),
-    new ExtractTextPlugin(conf.name+'-'+conf.version+'.css')
+    new ExtractTextPlugin(conf.name+'.css')
   ],
   postcss: () => [autoprefixer],
   output: {
     path: path.join(process.cwd(), conf.paths.dist),
-    filename: '[name]-'+conf.version+'.js'
+    filename: '[name].js'
   },
   entry: createEntry()
 };

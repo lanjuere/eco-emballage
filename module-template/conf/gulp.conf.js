@@ -40,7 +40,7 @@ for (const pathName in exports.paths) {
     };
   }
 }
-console.log(exports.path);
+
 /**
  *  Common implementation for an error handler of a Gulp plugin
  */

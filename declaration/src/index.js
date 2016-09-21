@@ -4,4 +4,4 @@ require('bootstrap/dist/css/bootstrap.css');
 require('angular-animate');
 require('angular-touch');
 require('angular-ui-bootstrap');
-angular.module('app', ['ui.bootstrap', views]);
+angular.module('declaration', ['ui.bootstrap', views]);
