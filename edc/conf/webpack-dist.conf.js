@@ -5,7 +5,9 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const pkg = require('../package.json');
 const autoprefixer = require('autoprefixer');
-
+const dependencies = Object.keys(pkg.dependencies);
+// var declarationId = dependencies.indexOf('declaration');
+// dependencies.splice(declarationId, 1);
 module.exports = {
   module: {
     preLoaders: [
@@ -34,7 +36,7 @@ module.exports = {
         test: /\.js$/,
         exclude: /node_modules/,
         loaders: [
-          'ng-annotate'
+          'ng-annotate', 'babel'
         ]
       },
       {
@@ -54,15 +56,25 @@ module.exports = {
       template: conf.path.src('index.html'),
       inject: true
     }),
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {unused: true, dead_code: true} // eslint-disable-line camelcase
+    new webpack.optimize.CommonsChunkPlugin({
+      name: conf.name+'-vendor',
+      filename: conf.name+'-vendor.js'
     }),
-    new ExtractTextPlugin(conf.name+'-'+conf.version+'.css')
+    // new webpack.optimize.UglifyJsPlugin({
+    //   compress: {unused: true, dead_code: true} // eslint-disable-line camelcase
+    // }),
+    new ExtractTextPlugin(conf.name+'.css'),
+    new webpack.ProvidePlugin({
+        $: 'jquery',
+        jquery: 'jquery',
+        jQuery: 'jquery'
+        // angular: 'angular'
+    })
   ],
   postcss: () => [autoprefixer],
   output: {
     path: path.join(process.cwd(), conf.paths.dist),
-    filename: '[name]-'+conf.version+'.js'
+    filename: '[name].js'
   },
   entry: createEntry()
 };
@@ -71,6 +83,6 @@ module.exports = {
 function createEntry(){
   var entries = {};
   entries[conf.name] = `./${conf.path.src('index')}`;
-  entries[conf.name+'-vendor'] = Object.keys(pkg.dependencies);
+  entries[conf.name+'-vendor'] = dependencies;
   return entries;
 }
