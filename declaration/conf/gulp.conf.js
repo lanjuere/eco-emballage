@@ -11,9 +11,13 @@
 const path = require('path');
 const gutil = require('gulp-util');
 var fs = require('fs');
-var json = JSON.parse(fs.readFileSync('./package.json'));
+var pkg = JSON.parse(fs.readFileSync('./package.json'));
 
-exports.ngModule = 'declaration';
+exports.version = pkg.version;
+exports.name = pkg.name;
+exports.dependencies = Object.keys(pkg.dependencies);
+exports.ngModule = pkg.name;
+
 
 /**
  *  The main paths of your project handle these with care
@@ -25,9 +29,6 @@ exports.paths = {
   e2e: 'e2e',
   tasks: 'gulp_tasks'
 };
-
-exports.version = json.version;
-exports.name = json.name;
 
 exports.path = {};
 for (const pathName in exports.paths) {

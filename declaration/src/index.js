@@ -1,9 +1,5 @@
-var angular = require('angular');
-require('bootstrap/dist/css/bootstrap.css');
-require('angular-animate');
-require('angular-touch');
-require('angular-ui-bootstrap');
-
-var views = require('./app/views/views');
-
-angular.module('declaration', ['ui.bootstrap', views]);
+require('./libs/libs');
+require('./app/views/views');
+var translateProvider = require('./app/commons/translate/DeclarationTranslateProvider');
+angular.module('declaration', ['declaration-libs', 'views']);
+angular.module('declaration').config(['$translateProvider', translateProvider]);

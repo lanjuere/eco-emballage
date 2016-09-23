@@ -9,10 +9,11 @@ describe('accueil component', function () {
     angular.mock.module(homeComponent);
   });
 
-  it('should render \'Hello World !\'', angular.mock.inject(function ($rootScope, $compile) {
+  it('should render 4 alertes', angular.mock.inject(function ($rootScope, $compile) {
     var element = $compile('<home></home>')($rootScope);
     $rootScope.$digest();
-    var home = element.find('div');
-    expect(home.html().trim()).toEqual('Hello World !');
+
+    var alertes = element.find('a');
+    expect(alertes.length).toEqual(4);
   }));
 });

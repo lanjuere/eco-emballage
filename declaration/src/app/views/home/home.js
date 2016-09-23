@@ -1,11 +1,7 @@
-var angular = require('angular');
-var homeModuleName = 'home';
-var home = angular.module(homeModuleName, []);
-home.component(homeModuleName, {
+// var angular = require('angular');
+angular.module('home', []).component('home', {
   template: require('./home.html'),
   controller: function () {},
   bindings: {
   }
 });
-
-module.exports = homeModuleName;

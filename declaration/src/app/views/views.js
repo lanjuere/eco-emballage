@@ -1,5 +1,3 @@
-var angular = require('angular');
-var homeModule = require('./home/home');
-var viewsModuleName = "views";
-module.exports = viewsModuleName;
-angular.module('views', [homeModule]);
+// var angular = require('angular');
+require('./home/home');
+angular.module('views', ['home']);

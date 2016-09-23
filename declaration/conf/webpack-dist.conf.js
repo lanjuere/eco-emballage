@@ -1,92 +1,31 @@
-const webpack = require('webpack');
-const conf = require('./gulp.conf');
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const pkg = require('../package.json');
-const autoprefixer = require('autoprefixer');
 const nodeExternals = require('webpack-node-externals');
+const conf = require('./gulp.conf');
+const helper = require('./helpers/webpackHelper.js');
 
-const dependencies = Object.keys(pkg.dependencies).slice();
-// var angularId = Object.keys(pkg.dependencies).indexOf('angular');
-// dependencies.splice(angularId, 1);
-module.exports = {
-  // externals: [nodeExternals( {// in order to ignore all modules in node_modules folder
-  //     whitelist: Object.keys(pkg.dependencies)
-  //   })],
-  module: {
-    preLoaders: [
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        loader: 'eslint'
-      }
-    ],
+// var vendors = helper.createOption(conf.name+'-vendor',conf.dependencies,[helper.loaders.js, helper.loaders.json, helper.loaders.css, helper.loaders.html],
+//  [helper.plugins.provideJquery, helper.plugins.chunk(conf.name+'-vendors')] );
 
-    loaders: [
-      {
-        test: /.json$/,
-        loaders: [
-          'json'
-        ]
-      },
-      {
-        test: /\.css$/,
-        loaders: ExtractTextPlugin.extract({
-          fallbackLoader: 'style',
-          loader: 'css?minimize!!postcss'
-        })
-      },
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        loaders: [
-          'ng-annotate', 'babel'
-        ]
-      },
-      {
-        test: /.html$/,
-        loaders: [
-          'html'
-        ]
-      },
-      { test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader:"url?limit=10000&mimetype=application/font-woff" },
-      { test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "file-loader" }
-    ]
-  },
-  plugins: [
-    new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.NoErrorsPlugin(),
-    new HtmlWebpackPlugin({
-      template: conf.path.src('index.html'),
-      inject: true
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: conf.name+'-vendor',
-      filename: conf.name+'-vendor.js'
-    }),
-    // new webpack.optimize.UglifyJsPlugin({
-    //   compress: false // eslint-disable-line camelcase
-    // }),
-    new ExtractTextPlugin(conf.name+'.css'),
-    new webpack.ProvidePlugin({
-        $: 'jquery',
-        jquery: 'jquery',
-        jQuery: 'jquery'
-    })
-  ],
-  postcss: () => [autoprefixer],
-  output: {
-    path: path.join(process.cwd(), conf.paths.dist),
-    filename: '[name].js'
-  },
-  entry: createEntry()
-};
+var entry={};
+entry[conf.name]=`./${conf.path.src('index')}`;
+var api = helper.createOption(conf.name,entry,
+    [helper.loaders.js, helper.loaders.json, helper.loaders.css, helper.loaders.html, helper.loaders.woff, helper.loaders.ttf],
+    [helper.plugins.provideJquery, helper.plugins.occurenceOder, helper.plugins.noErrors, helper.plugins.extractText, helper.plugins.uglifyJs],
+    [nodeExternals()] );
+var standalone = helper.createOption(conf.name,entry,
+    [helper.loaders.js, helper.loaders.json, helper.loaders.css, helper.loaders.html, helper.loaders.woff, helper.loaders.ttf],
+    [helper.plugins.provideJquery, helper.plugins.occurenceOder, helper.plugins.noErrors, helper.plugins.extractText, helper.plugins.uglifyJs],
+    [nodeExternals()] );
+var standaloneEntry = {};
+standaloneEntry[conf.name+'-standalone'] = `./${conf.path.src('index')}`;
+standaloneEntry[conf.name+'-vendor'] = conf.dependencies;
 
+var standalone = helper.createOption(undefined,standaloneEntry,
+    [helper.loaders.js, helper.loaders.json, helper.loaders.css, helper.loaders.html, helper.loaders.woff, helper.loaders.ttf],
+    [ helper.plugins.provideJquery, helper.plugins.occurenceOder, helper.plugins.noErrors, helper.plugins.extractText, helper.plugins.chunk(conf.name+'-vendor'),helper.plugins.html(undefined,conf.path.src('index.html'))]
+  );
 
-function createEntry(){
-  var entries = {};
-  entries[conf.name] = `./${conf.path.src('index')}`;
-  entries[conf.name+'-vendor'] = dependencies;
-  return entries;
-}
+module.exports = [
+  // vendors,
+  api,
+  standalone
+]
