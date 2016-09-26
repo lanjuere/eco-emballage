@@ -16,12 +16,13 @@ var standalone = helper.createOption(conf.name,entry,
     [helper.plugins.provideJquery, helper.plugins.occurenceOder, helper.plugins.noErrors, helper.plugins.extractText, helper.plugins.uglifyJs],
     [nodeExternals()] );
 var standaloneEntry = {};
-standaloneEntry[conf.name+'-standalone'] = `./${conf.path.src('index')}`;
-standaloneEntry[conf.name+'-vendor'] = conf.dependencies;
+var vendorsName = conf.name+'-vendor'+conf.version;
+standaloneEntry[conf.name+'-standalone'+conf.version] = `./${conf.path.src('index')}`;
+standaloneEntry[vendorsName] = conf.dependencies;
 
 var standalone = helper.createOption(undefined,standaloneEntry,
     [helper.loaders.js, helper.loaders.json, helper.loaders.css, helper.loaders.html, helper.loaders.woff, helper.loaders.ttf],
-    [ helper.plugins.provideJquery, helper.plugins.occurenceOder, helper.plugins.noErrors, helper.plugins.extractText, helper.plugins.chunk(conf.name+'-vendor'),helper.plugins.html(undefined,conf.path.src('index.html'))]
+    [ helper.plugins.provideJquery, helper.plugins.occurenceOder, helper.plugins.noErrors, helper.plugins.extractText, helper.plugins.chunk(vendorsName),helper.plugins.html(undefined,conf.path.src('index.html'))]
   );
 
 module.exports = [

@@ -46,15 +46,7 @@ module.exports = {
         ]
       },
       { test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader:"url?limit=10000&mimetype=application/font-woff" },
-      { test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "file-loader" },
-      { // bootstrap
-        test: /bootstrap\/dist\/js\/bootstrap\.js/,
-        loader: 'imports?materializecss'
-      },
-      { // bootstrap stylesheets
-        test:  /^((?!bootstrap).)*\.css$/,
-        loader: 'raw'
-      }
+      { test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "file-loader" }
     ]
   },
   plugins: [
@@ -63,6 +55,11 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: conf.path.src('index.html'),
       inject: true
+    }),
+     new webpack.ProvidePlugin({
+        $: 'jquery',
+        jquery: 'jquery',
+        jQuery: 'jquery'
     })
   ],
   postcss: () => [autoprefixer],

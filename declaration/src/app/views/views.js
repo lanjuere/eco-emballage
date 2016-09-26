@@ -1,3 +1,5 @@
-// var angular = require('angular');
 require('./home/home');
-angular.module('views', ['home']);
+var remplirProduitModule = require('./remplirProduit/RemplirProduit');
+var listeEmballageModule = require('./listeEmballage/ListeEmballage');
+
+angular.module('views', ['home', remplirProduitModule, listeEmballageModule]);
