@@ -15,9 +15,6 @@ function ListeEmballageService(ngTableParams){
     self.emballages.push(createEmballage("Libellé UVC n°2", 2015300));
     self.emballages.push(createEmballage("Yaourts aromatisé par 4", 2015300));
 
-
-
-
    return self;
 }
 

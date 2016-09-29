@@ -1,5 +1,5 @@
-require('./home/home');
 var remplirProduitModule = require('./remplirProduit/RemplirProduit');
 var listeEmballageModule = require('./listeEmballage/ListeEmballage');
+var recommandationModule = require('./recommandation/Recommandation');
 
-angular.module('views', ['home', remplirProduitModule, listeEmballageModule]);
+angular.module('views', [ remplirProduitModule, listeEmballageModule, recommandationModule]);
